@@ -401,7 +401,7 @@ fps( const bsc::vec4i viewport, SequenceData * data, ViewOptions * view_opts, co
   char n_points_string[512];
   char image_name_A[512];
   char image_name_B[512];
-  sprintf( n_points_string, "NPoints  : %lld", n_points );
+  sprintf( n_points_string, "NPoints  : %ld", n_points );
   sprintf( image_name_A, "%s", data->depth_names[view_opts->frame_idx_A] );
   sprintf( image_name_B, "%s", data->depth_names[view_opts->frame_idx_B] );
   ImVec2 add_size( std::max( ImGui::CalcTextSize( n_points_string ).x,

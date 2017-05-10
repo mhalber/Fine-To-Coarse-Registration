@@ -714,13 +714,6 @@ void Display()
       {
         io::write_configuration_file( opts.output_conf_filename, &seq_data, &opts );
 
-        if( opts.xforms_history_filename )
-        {
-          io::write_transformation_history( opts.xforms_history_filename,
-                                            &seq_data,
-                                            &opts );
-        }
-        
         if( strcmp( seq_data.dataset, "tum" ) == 0 )
         {
           io::write_tum_trajectory_file("tum.traj", &seq_data, &opts );

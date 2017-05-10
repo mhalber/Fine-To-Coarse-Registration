@@ -65,9 +65,23 @@
   #endif
 
   // glfw configuration
+#ifdef __APPLE__
   #define GLFW_INCLUDE_GLCOREARB  /* don't drag in legacy GL headers. */
-  #define GLFW_NO_GLU 
-  #include "GLFW/glfw3.h"
+  #define GLFW_NO_GLU
+#endif
+
+#ifdef __unix__ 
+  #define GLFW_INCLUDE_NONE
+  #include <GL/glew.h>
+  #include <GL/gl.h>
+  #include <GL/glext.h>
+#endif
+
+#if defined(_WIN32) || defined(_WIN64)
+// TODO: Windows glfw config
+#endif
+
+#include "GLFW/glfw3.h"
 
 #else  // offscreen rendering
 
@@ -79,6 +93,7 @@
   #endif
 
   #ifdef __unix__
+    #include <GL/glew.h>
     #include <GL/gl.h>
     #include <GL/glext.h>
   #endif
