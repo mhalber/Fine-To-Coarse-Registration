@@ -1716,7 +1716,6 @@ reconstruction_to_world ( SequenceData * seq_data,
       shape->current_transformation = R3Affine(bscmat4_to_R4Matrix(xform));
     }
   }
-  if( opts->print_verbose ) printf("Alignement with world took %f sec.\n", timer.elapsed() );
+  if( opts->print_verbose ) printf("Alignment with world took %f sec.\n", timer.elapsed() );
 }
-
 }

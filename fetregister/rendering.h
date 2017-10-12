@@ -1479,7 +1479,7 @@ init_trajectory( bsc::gpu_geometry *traj_geo,
     r32 t = (r32)i / (r32)opts->frame_end;
     i32 col_idx_A = floor(8 * t);
     i32 col_idx_B = std::min( col_idx_A + 1, 8 );
-    float weight = mmath::sigmoid( n_inliers[i], 5.0f, 0.5f );
+    float weight = (n_inliers) ? mmath::sigmoid( n_inliers[i], 5.0f, 0.5f ) : 1.0;
     bsc::vec3 col_A( transition_map[ col_idx_A ].r, 
                      transition_map[ col_idx_A ].g, 
                      transition_map[ col_idx_A ].b );
