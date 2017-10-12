@@ -7,7 +7,7 @@ repository contains four main parts:
 - fetbenchmark - simple application for benchmarking results of registration algorithms (for data visit the [project website][2]). 
 - gaps - general computer graphics library by Thomas Funkhouser
 - basics - visualization and utility helper library
-- sun3dsfm - modified version of [code form Xiao et al.][3]. For our purpose we only perform pairwise alignment.
+- sun3dsfm - modified version of [code from Xiao et al.][3]. For our purpose we only perform pairwise alignment.
 
 ## Building
 Provided that you have dependencies installed (see below), you should be able to simply type:

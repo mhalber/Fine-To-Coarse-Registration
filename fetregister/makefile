@@ -7,7 +7,17 @@ else
 CC = g++
 endif
 
-CPPFLAGS = -O3 -g0 -std=c++11 -Wall -Wno-\#warnings -Wno-sign-compare 
+CPPFLAGS = -O3 -g0 -std=c++11 -Wall 
+
+#System specific warnings
+ifeq ($(UNAME),Linux)
+CPPFLAGS += -Wno-sign-compare -Wno-unused-result #TODO: gcc complains about these, add fixes in code
+endif
+
+ifeq ($(UNAME),Darwin)
+CPPFLAGS += -Wno-\#warnings
+endif
+
 
 # Executable name
 EXE_NAME = fetregister
@@ -27,17 +37,21 @@ OBJS = $(SRCS:%.cpp=$(OUT_DIR)%.o)
 OBJS += ../$(IMGUI_DIR)imgui.o ../$(IMGUI_DIR)imgui_draw.o ../$(IMGUI_DIR)imgui_demo.o
 
 # Compile and link options
-CPPFLAGS += -I. -I/usr/local/include -I../$(IMGUI_DIR) -I../$(BSC_DIR) -I../$(GAPS_DIR)pkgs -DRN_USE_CSPARSE -DRN_USE_SPLM -DNDEBUG
+CPPFLAGS += -I. -I/usr/include -I/usr/local/include -I../$(IMGUI_DIR) -I../$(BSC_DIR) -I../$(GAPS_DIR)pkgs -DRN_USE_CSPARSE -DRN_USE_SPLM -DNDEBUG
 
  # Libraries
 ifeq ($(UNAME),Linux)
-OPENGL_LIBS= -L$(LIB_DIR) -lGLEW -lGLU -lGL -lX11 -lfglut
-LIBS = $(OPENGL_LIBS) -L../$(GAPS_DIR)lib/x86_64/ -lFET -lR3Surfels -lR3Graphics -lR3Shapes -lR2Shapes -lRNMath -lRNBasics -ljpeg -lpng -lsplm -lCSparse
+OPENGL_LIBS =  -L/usr/lib64 -lGLEW -lGL -lGLU 
 
 ifeq ($(USE_WINDOW), 1)
-LIBS += -L$(LIB_DIR) -lglfw3 
+LIBS = -L$(LIB_DIR) -lglfw3 -lrt -lm -ldl -lXrandr -lXinerama -lXext -lXcursor -lXrender -lXfixes -lX11 -lpthread -lxcb -lXau -lXdmcp
 CPPFLAGS += -DFETREGISTER_USE_WINDOW
+LIBS += -L../$(GAPS_DIR)lib/x86_64/ -lFET -lR3Surfels -lR3Graphics -lR3Shapes -lR2Shapes -lRNMath -lRNBasics -ljpeg -lpng -lsplm -lCSparse
+else
+LIBS = -L../$(GAPS_DIR)lib/x86_64/ -lFET -lR3Surfels -lR3Graphics -lR3Shapes -lR2Shapes -lRNMath -lRNBasics -ljpeg -lpng -lsplm -lCSparse
 endif
+
+LIBS += $(OPENGL_LIBS)
 
 endif
 
@@ -56,7 +70,7 @@ endif
 all: clean fetregister
 
 fetregister: $(OBJS)
-		$(CC) $(FRAMEWORKS) $(CPPFLAGS) $(OBJS) $(LIBS) -o ${BIN_DIR}${EXE_NAME}
+		$(CC) $(FRAMEWORKS) $(CPPFLAGS) $(OBJS) -o ${BIN_DIR}${EXE_NAME} $(LIBS)
 
 clean:
 		rm -f $(OUT_DIR)*.a $(OUT_DIR)*.o ${BIN_DIR}${EXE_NAME} ${BIN_DIR}${EXE_NAME}.exe
